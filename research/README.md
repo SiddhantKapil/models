@@ -26,6 +26,7 @@ installation](https://www.tensorflow.org/install).
     for visual navigation.
 -   [compression](compression): compressing and decompressing images using a
     pre-trained Residual GRU network.
+-   [deeplab](deeplab): deep labelling for semantic image segmentation.
 -   [delf](delf): deep local features for image matching and retrieval.
 -   [differential_privacy](differential_privacy): privacy-preserving student
     models from multiple teachers.
@@ -38,6 +39,7 @@ installation](https://www.tensorflow.org/install).
 -   [lfads](lfads): sequential variational autoencoder for analyzing
     neuroscience data.
 -   [lm_1b](lm_1b): language modeling on the one billion word benchmark.
+-   [maskgan](maskgan): text generation with GANs.
 -   [namignizer](namignizer): recognize and generate names.
 -   [neural_gpu](neural_gpu): highly parallel neural computer.
 -   [neural_programmer](neural_programmer): neural network augmented with logic

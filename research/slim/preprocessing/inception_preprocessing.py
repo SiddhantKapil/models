@@ -47,7 +47,7 @@ def distort_color(image, color_ordering=0, fast_mode=True, scope=None):
 
   Each color distortion is non-commutative and thus ordering of the color ops
   matters. Ideally we would randomly permute the ordering of the color ops.
-  Rather then adding that level of complication, we select a distinct ordering
+  Rather than adding that level of complication, we select a distinct ordering
   of color ops for each preprocessing thread.
 
   Args:
@@ -226,11 +226,12 @@ def preprocess_for_train(image, height, width, bbox,
     # Randomly flip the image horizontally.
     distorted_image = tf.image.random_flip_left_right(distorted_image)
 
-    # Randomly distort the colors. There are 4 ways to do it.
+    # Randomly distort the colors. There are 1 or 4 ways to do it.
+    num_distort_cases = 1 if fast_mode else 4
     distorted_image = apply_with_random_selector(
         distorted_image,
         lambda x, ordering: distort_color(x, ordering, fast_mode),
-        num_cases=4)
+        num_cases=num_distort_cases)
 
     if add_image_summaries:
       tf.summary.image('final_distorted_image',

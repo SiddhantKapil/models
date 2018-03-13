@@ -20,6 +20,7 @@ from __future__ import print_function
 import os
 import shutil
 import gzip
+
 import numpy as np
 from six.moves import urllib
 import tensorflow as tf
@@ -91,6 +92,7 @@ def dataset(directory, images_file, labels_file):
 
   def decode_label(label):
     label = tf.decode_raw(label, tf.uint8)  # tf.string -> [tf.uint8]
+    label = tf.reshape(label, [])  # label is a scalar
     return tf.to_int32(label)
 
   images = tf.data.FixedLengthRecordDataset(

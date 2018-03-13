@@ -22,11 +22,19 @@ import os
 import sys
 
 import tensorflow as tf
-import dataset
+from official.mnist import dataset
 
 
-class Model(object):
-  """Class that defines a graph to recognize digits in the MNIST dataset."""
+class Model(tf.keras.Model):
+  """Model to recognize digits in the MNIST dataset.
+
+  Network structure is equivalent to:
+  https://github.com/tensorflow/tensorflow/blob/r1.5/tensorflow/examples/tutorials/mnist/mnist_deep.py
+  and
+  https://github.com/tensorflow/models/blob/master/tutorials/image/mnist/convolutional.py
+
+  But written as a tf.keras.Model using the tf.layers API.
+  """
 
   def __init__(self, data_format):
     """Creates a model for classifying a hand-written digit.
@@ -37,6 +45,7 @@ class Model(object):
         typically faster on CPUs. See
         https://www.tensorflow.org/performance/performance_guide#data_formats
     """
+    super(Model, self).__init__()
     if data_format == 'channels_first':
       self._input_shape = [-1, 1, 28, 28]
     else:
@@ -142,7 +151,7 @@ def validate_batch_size_for_multi_gpu(batch_size):
   if not num_gpus:
     raise ValueError('Multi-GPU mode was specified, but no GPUs '
       'were found. To use CPU, run without --multi_gpu.')
-    
+
   remainder = batch_size % num_gpus
   if remainder:
     err = ('When running with multiple GPUs, batch size '
@@ -184,8 +193,7 @@ def main(unused_argv):
     ds = dataset.train(FLAGS.data_dir)
     ds = ds.cache().shuffle(buffer_size=50000).batch(FLAGS.batch_size).repeat(
         FLAGS.train_epochs)
-    (images, labels) = ds.make_one_shot_iterator().get_next()
-    return (images, labels)
+    return ds
 
   # Set up training hook that logs the training accuracy every 100 steps.
   tensors_to_log = {'train_accuracy': 'train_accuracy'}
